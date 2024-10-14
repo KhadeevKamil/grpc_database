@@ -1,4 +1,4 @@
-require 'securerandom'
+require "securerandom"
 
 def generate_id
   SecureRandom.uuid

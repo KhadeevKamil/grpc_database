@@ -4,8 +4,11 @@ require "grpc"
 require_relative "lib/database_services_pb"
 
 class DatabaseClient
+  attr_reader :last_inserted_id
+
   def initialize(host = "localhost:50051")
     @stub = Database::DatabaseService::Stub.new(host, :this_channel_is_insecure)
+    @last_inserted_id = nil
   end
 
   def create_database(name, segment_size, fsync_frequency)
@@ -20,8 +23,10 @@ class DatabaseClient
   end
 
   def insert(database_name, json_data)
-    request = Database::InsertRequest.new(database_name:, json_data:)
-    @stub.insert(request)
+    request = Database::InsertRequest.new(database_name: database_name, json_data: json_data)
+    response = @stub.insert(request)
+    @last_inserted_id = response.id if response.success
+    response
   end
 
   def select(database_name, id)

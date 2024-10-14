@@ -1,0 +1,6 @@
+{
+  "test_db": {
+    "segment_size": 2048,
+    "fsync_frequency": 5
+  }
+}

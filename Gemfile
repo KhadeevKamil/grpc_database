@@ -6,6 +6,9 @@ gem "benchmark"
 gem "google-protobuf"
 gem "grpc"
 gem "json"
+gem "lru_redux"
+gem "pry"
+gem "pry-byebug"
 gem "sinatra"
 
 group :development do
