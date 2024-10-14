@@ -34,14 +34,12 @@ class DatabaseHandler
     false
   end
 
-  def insert(json_data)
+  def insert(id, json_data)
     data = JSON.parse(json_data)
-    # генерировать нормальный айдишник
-    id = generate_id
     data["id"] = id
 
     serialized_data = JSON.generate(data)
-    return [nil, false, "Data size exceeds segment size"] if serialized_data.bytesize > @segment_size
+    return [false, "Data size exceeds segment size"] if serialized_data.bytesize > @segment_size
 
     @mutex.synchronize do
       File.open(@file_path, "a") do |file|
@@ -50,11 +48,11 @@ class DatabaseHandler
       end
     end
 
-    [id, true, "Data inserted successfully"]
+    [true, "Data inserted successfully"]
   rescue JSON::ParserError
-    [nil, false, "Invalid JSON data"]
+    [false, "Invalid JSON data"]
   rescue StandardError => e
-    [nil, false, "Error inserting data: #{e.message}"]
+    [false, "Error inserting data: #{e.message}"]
   end
 
   def select(id)
