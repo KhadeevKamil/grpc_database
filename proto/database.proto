@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package database;
+
+service DatabaseService {
+  rpc CreateDatabase (CreateDatabaseRequest) returns (CreateDatabaseResponse) {}
+  rpc DeleteDatabase (DeleteDatabaseRequest) returns (DeleteDatabaseResponse) {}
+  rpc Insert (InsertRequest) returns (InsertResponse) {}
+  rpc Select (SelectRequest) returns (SelectResponse) {}
+  rpc Delete (DeleteRequest) returns (DeleteResponse) {}
+  rpc Update (UpdateRequest) returns (UpdateResponse) {}
+}
+
+message CreateDatabaseRequest {
+  string name = 1;
+  int32 segment_size = 2;
+  int32 fsync_frequency = 3;
+}
+
+message CreateDatabaseResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message DeleteDatabaseRequest {
+  string name = 1;
+}
+
+message DeleteDatabaseResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message InsertRequest {
+  string database_name = 1;
+  string json_data = 2;
+}
+
+message InsertResponse {
+  string id = 1;
+  bool success = 2;
+  string message = 3;
+}
+
+message SelectRequest {
+  string database_name = 1;
+  string id = 2;
+}
+
+message SelectResponse {
+  string json_data = 1;
+  bool success = 2;
+  string message = 3;
+}
+
+message DeleteRequest {
+  string database_name = 1;
+  string id = 2;
+}
+
+message DeleteResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message UpdateRequest {
+  string database_name = 1;
+  string id = 2;
+  string json_data = 3;
+}
+
+message UpdateResponse {
+  bool success = 1;
+  string message = 2;
+}
